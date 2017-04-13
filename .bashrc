@@ -60,7 +60,11 @@ fi
 [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ] && source /usr/share/git-core/contrib/completion/git-prompt.sh
 
 if [ "$color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\]\342\234\223\[\033[01;34m\]\"; else echo \"\[\033[01;31m\]\342\234\227\"; fi) [\w]\[\033[1;35m\]\$(__git_ps1)\[\033[1;33m\]\$\[\e[0m\] "
+    if [ -n "$SSH_CLIENT" ]; then
+        PS1="${debian_chroot:+($debian_chroot)}\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\]\342\234\223\[\033[01;34m\]\"; else echo \"\[\033[01;31m\]\342\234\227\"; fi) [\h:\w]\[\033[1;35m\]\$(__git_ps1)\[\033[1;33m\]\$\[\e[0m\] "
+    else
+        PS1="${debian_chroot:+($debian_chroot)}\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\]\342\234\223\[\033[01;34m\]\"; else echo \"\[\033[01;31m\]\342\234\227\"; fi) [\w]\[\033[1;35m\]\$(__git_ps1)\[\033[1;33m\]\$\[\e[0m\] "
+    fi
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
